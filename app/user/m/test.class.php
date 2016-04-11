@@ -1,0 +1,1 @@
+<?php	class test {		function index(){			echo "test";					}	}?>

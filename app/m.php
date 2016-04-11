@@ -1,0 +1,1 @@
+<?php	class m{		function index(){			echo "hello this is m::index();";		}	}?>

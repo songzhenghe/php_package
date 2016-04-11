@@ -1,0 +1,31 @@
+将类放在公共包含目录下即可
+
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+
+<input name="abcdef" type="callback" value="callbacks::myfun" msg="验证没通过！" />
+
+</form>
+
+<?php
+	class callbacks{
+		function myfun($data){
+			if($data==1){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+?>
+
+
+$d=array("abcdef"=>1);
+
+	$vali=validate::check("test",$d,"add");//验证
+	if($vali){
+		echo "ok";
+	}else{
+		$common_func->alert(implode("&",validate::getMsg()),$_SERVER['HTTP_REFERER']);	//固定用法
+		exit;
+	}

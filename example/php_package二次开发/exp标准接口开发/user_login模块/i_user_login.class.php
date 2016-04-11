@@ -1,0 +1,1 @@
+<?phpclass i_user_login extends user_login_exp{	public function user_login($in_data){		return $this->example_user_login($in_data);	}	public function user_logout(){		return $this->example_user_logout();	}	public function user_session($name=''){		return $this->example_user_session($name);	}}

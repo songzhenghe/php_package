@@ -1,0 +1,1 @@
+<strong>我是模板中的文字</strong><br />分配置的变量：<?php echo $this->name; ?><?phpp($this->arr);$this->common_func->alert('我现在在模板里提示你！');global $common_func;$common_func->alert('呵呵');?>

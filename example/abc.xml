@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+<input name="name" type="notnull" action="add" msg="姓名不能为空！" />
+<input name="name" type="length" value="3,20" msg="姓名的长度必须在3-20 之间！" />
+<input name="name" type="unique" action="add" msg="这个姓名已经存在！" />
+
+<input name="age" type="notnull" action="both" msg="年龄不能为空！" />
+<input name="age" type="number" msg="年龄必须为数字！" />
+
+</form>

@@ -1,0 +1,4 @@
+define('APP_PATH','myprj_1/');
+build::create();
+define('APP_PATH','myprj_2/');
+build::create();

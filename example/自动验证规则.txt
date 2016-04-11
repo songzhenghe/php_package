@@ -1,0 +1,127 @@
+自动验证
+
+自动验证是基于XML 方式实现的，可以对所有表单在服务器端通过PHP 实现自动验证。如
+
+果自己定义一个js 文件，通过处理XML文件也可以同时实现在前台也自动使用JavaScript 验证。
+
+使用方法是在当前应用的models 目录下，创建一个和表名同名的XML 文件。例如，对
+
+bro_users 表进行自动验证，则在models 下创建一个users.xml 文件(一般都是对入库的数据进行
+
+验证，而入库又发生在添加或修改数据时，所以XML 文件名必须和表名相同才能自动处理)。文
+
+件中的使用样例如下所示：
+
+/* 在models 目录下，users.xml, 对添加或修改bro_users 表的表单进行自动验证 */
+
+users.xml 文件
+
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+<input name="name" type="notnull" action="both" msg="有问题" />
+<input name="email" type="email" msg="不是正确的EMAIL 格式" />
+<input name="price" type="currency" msg="价格必须是金钱格式" />
+<input name="code" type="vcode" msg="验证码输入错误!" />
+<input name="name" type="regex" value="/^abc/i" msg="不能匹配！" />
+</form>
+
+在上例的XML 文件中，最外层标记<form>和每个子标记<input>其实是可以任意命名（上例
+
+的命名类似表单），如果不是正确的XML 文件格式，也会在调试模式下提示。但每个<input>标
+
+记中的属性名必按规范设置，也可以对同一个表单进行多次不同形式的验证（例如，年龄不能
+
+为空和年龄必须是整数等），只要连续写几个<input>标记即可。属性的设置分别介绍如下所
+
+示：
+ name 属性
+
+该属性是必须的属性，和提交的表单项name 属性是对应的，表示对那个表单项进行验证。
+
+ action 属性
+
+该属性是是可选的，用于设置验证的时间，可以有三个值add(添加数据时进行验证)、
+
+mod(修改数据时进行验证)、both(添加和修改数据时都进行验证)。如果不加这个属性默认值是both。
+
+ msg 属性
+
+该属性也是必须提供的属性，用于在验证没通过时的提示消息。
+
+ value 属性
+
+该属性也是可选的，不过该属性是否使用和设置的值都由type 属性的值决定
+
+ type 属性
+
+这是一个可选的属性，用于设置验证的形式，如果没有提供这个属性，默认值是“regex”
+
+（使用正则表达式进行验证，需要在value 的属性中给出正则表达式）。该属性可以使用的值及
+
+使用如下所示：
+
+regex ：使用正则进行验证，需要和value 属性一起使用，在value 中给出自定义的正则表
+
+达式，这也是默认的方式。例如：
+
+<input name="name" type="regex" value="/^php/i" msg="名字不是以PHP 开始！" />
+
+unique ：唯一性效验，检查提交过来的值，在数据表是否已经存在，例如：
+
+<input name="name" type="unique" msg="这个用户名已经存在！" />
+
+notnull ：验证表单提交的内容是否为空。 例如，只在添加数据时验证：
+
+<input name="name" type="notnull" action=”add” msg="用户名不能为空！" />
+
+email ： 验证是否是正确的电子邮件格式。例如：
+
+<input name="email" type="email" msg="不是正确的EMAIL 格式！" />
+
+url ： 验证是否是正确的URL 格式。 例如：
+
+<input name="url" type="url" msg="不是正解的URL 格式！" />
+
+number ：验证是否是数字格式。例如：
+
+<input name="age" type="number" msg="年龄必须输出数字！" />
+
+currency ：验证是否为金钱格式。例如：
+
+<input name="price" type="currency" msg="商品价格的录入格式不正确！" />
+
+confirm ：检查两次输入的密码是否一致，需要使用value 属性指定另一个表单（第一个密
+
+码字段）名称。例如：
+
+<input name="repassword" type="confirm" value="password" msg="两次密码输入不一致！" />
+
+in ： 检查值是否在指定范围之内，需要使用value 属性指定范围，有多种用法。例如：
+
+<input name="num" type="in" value="2" msg="输出的值必须是2！" />
+
+<input name="num" type="in" value="2-9" msg="输出的值必须在2 和9 之间！" />
+
+<input name="num" type="in" value="1，3，5，7" msg="必须是1,3,5,7 中的一个！" />
+
+length: 检查值的长度是否在指定的范围之内，需要使用value 属性指定范围，例如：
+
+<input name="username" type="length" value="3" msg="用户名的长度必须为3 个字节！" />
+
+<input name="username" type="length" value="3," msg="用户名的长度必须在3 个以上！" />
+
+<input name="username" type="length" value="3-" msg="用户名的长度必须在3 个以上！" />
+
+<input name="username" type="length" value="3,20" msg="用户名的长度必须在3-20 之间！" />
+
+<input name="username" type="length" value="3-20" msg="用户名的长度必须在3-20 之间！" />
+
+callback ：使用自定义的函数，通过回调的方式验证表单，需要通过value 属性指定回调用
+
+函数的名称。例如，使用自定义的函数myfun 验证用户名，如下所示：
+
+<input name="name" type="callback" value="myfun" msg="名子不是以PHP 开始！" />
+
+另外，如果使用BroPHP 中提供的Vcode 类输出验证码，只要表单中输入验证的选项名称
+name 值为“verifycode”，并且XML 文件存在，就会自动验证。
+

@@ -1,0 +1,21 @@
+<script type="text/javascript" src="<?php echo R_PATH;?>ckeditor/ckeditor.js?t=C3HA5RM"></script>
+<script type="text/javascript">
+	window.CKEDITOR_BASEPATH='<?php echo R_PATH;?>ckeditor/';
+</script>
+
+
+<textarea name="content" rows="8" cols="60"></textarea>
+<script type="text/javascript">
+    CKEDITOR.replace('content', {"height":400});
+</script>
+
+
+
+
+
+也可以使用id
+
+<textarea name="content" id="content1" rows="8" cols="60"><?php echo $info1["content"]?></textarea>
+<script type="text/javascript">
+    CKEDITOR.replace('content1', {"height":200});
+</script>

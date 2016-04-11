@@ -1,0 +1,1 @@
+<?php//组合搜索条件function search_condition($sql,$field,$r='or'){	if($r=='or'){		$sql.=' where 1>2 ';	}else{		$sql.=' where 1=1 ';	}	foreach($field as $k=>$v){		$sql.=$r." `{$k}` like '%{$v}%' ";	}	return $sql;}//返回今天的sqlfunction sql_equal_today($field){	return " from_unixtime(`{$field}`,'%Y-%m-%d')=curdate() ";}	

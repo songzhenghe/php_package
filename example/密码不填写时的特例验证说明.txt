@@ -1,0 +1,87 @@
+user.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+<input name="user_name" type="notnull" msg="用户名不能为空！" />
+<input name="user_name" type="length" value="3,20" msg="用户名的长度必须在3-20 之间！" />
+
+
+<input name="user_password" type="notnull" msg="密码不能为空！" action="add" />
+
+<input name="user_password" type="length" value="3,20" msg="密码的长度必须在3-20 之间！" action="add" />
+
+
+
+
+<input name="user_password" type="notnull" msg="密码可以为空！" action="mod" nullisok="1" />
+
+<input name="user_password" type="length" value="3,20" msg="密码的长度必须在3-20 之间！" action="mod" nullisok="1" />
+
+
+</form>
+
+
+validate.class.php
+
+
+//这里开始分配函数进行处理
+//处理前先判断一下有没有nullisok属性
+
+if(self::$data[$args["NAME"]]==""){
+	if($args["NULLISOK"]=='1'){
+		//不验证
+	}else{
+		self::$method(self::$data[$args["NAME"]],$args["MSG"],$args["VALUE"],$args["NAME"]);
+	}
+}else{
+	self::$method(self::$data[$args["NAME"]],$args["MSG"],$args["VALUE"],$args["NAME"]);
+}
+								
+
+								
+								
+init.example.php
+
+<?php
+define('PERMISSION','/');
+include('incl/define.php');
+
+
+$post["user_name"]="123";
+$post["user_password"]="123";
+
+/*
+	$vali=validate::check("user",$post,"mod");//验证
+	if($vali){
+		echo "ok";
+		//判断$post["user_password"]是否为空是空的话就把它unset
+		//$query=$sql_func->ready("update `{$prefix}category` set %s where `id`='$id'",$post);//准备
+		//echo $query;
+		//$sql_func->update($query);
+		//exit;
+	}else{
+		$common_func->alert(implode("&",validate::getMsg()),$_SERVER['HTTP_REFERER']);	//固定用法
+		exit;
+	}
+*/
+	
+	$vali=validate::check("user",$post,"add");//验证
+	if($vali){
+		echo "ok";
+		//$post["add_time"]=time();
+		//$query=$sql_func->ready("insert into `{$prefix}category` %s",$post);//准备
+		//$sql_func->insert($query);
+		//exit;
+	}else{
+		$common_func->alert(implode("&",validate::getMsg()),$_SERVER['HTTP_REFERER']);	//固定用法
+		exit;
+	}
+
+?>
+
+<?php
+include("close.php");
+?>
+
+
